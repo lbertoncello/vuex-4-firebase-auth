@@ -20,29 +20,24 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   setup() {
+    const store = useStore()
     const blogs = ref([
       { title: 'Why Coffee is Better than Tea', id: 1 },
       { title: '...Then I Took an Arrow in the Knee', id: 2 },
       { title: 'Mario vs Luigi, Ultimate Showdown', id: 3 },
     ])
+    const points = computed(() => store.state.points)
+    const updatePoints = (p) => store.commit('updatePoints', p)
 
     return { 
-      blogs
-    }
-  },
-  methods: {
-    updatePoints(points) {
-      // This method is used to call a mutation, which is given as a parameter
-      this.$store.commit('updatePoints', points)
-    }
-  },
-  computed: {
-    points() {
-      return this.$store.state.points
+      blogs,
+      points,
+      updatePoints
     }
   }
 }
