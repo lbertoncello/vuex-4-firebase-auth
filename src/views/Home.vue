@@ -1,5 +1,10 @@
 <template>
   <div class="home">
+    <!-- Vuex basics -->
+    <div>Points: {{ points }}</div>
+    <button @click="updatePoints(1)">Add a point</button>
+    <button @click="updatePoints(-1)">Remove a point</button>
+
     <div v-for="blog in blogs" :key="blog.id">
       <div class="blog">
         <h3>{{ blog.title }}</h3>
@@ -27,6 +32,17 @@ export default {
 
     return { 
       blogs
+    }
+  },
+  methods: {
+    updatePoints(points) {
+      // This method is used to call a mutation, which is given as a parameter
+      this.$store.commit('updatePoints', points)
+    }
+  },
+  computed: {
+    points() {
+      return this.$store.state.points
     }
   }
 }
