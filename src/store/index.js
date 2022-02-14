@@ -2,7 +2,8 @@ import { createStore } from 'vuex'
 import { auth } from '../firebase/config'
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signOut
 } from 'firebase/auth'
 
 const store = createStore({
@@ -35,8 +36,14 @@ const store = createStore({
       } else {
         throw new Error('Could not complete login')
       }
+    },
+    async logout(context) {
+      console.log('Logout action')
+  
+      await signOut(auth)
+      context.commit('setUser', null)
     }
-  }
+  },
 })
 
 export default store
