@@ -3,18 +3,23 @@ import { auth } from '../firebase/config'
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from 'firebase/auth'
 
 const store = createStore({
   state: {
-    user: null
+    user: null,
+    authIsReady: false
   },
   // Do not allows async code
   mutations: {
     setUser(state, payload) {
       state.user = payload
       console.log('User state changed: ', state.user)
+    },
+    setAuthIsReady(state, payload) {
+      state.authIsReady = payload
     }
   },
   // Actions are just functions which allow async code
@@ -42,6 +47,12 @@ const store = createStore({
       context.commit('setUser', null)
     }
   },
+})
+
+const unsub = onAuthStateChanged(auth, (user) => {
+  store.commit('setUser', user)
+  store.commit('setAuthIsReady', true)
+  unsub()
 })
 
 export default store
