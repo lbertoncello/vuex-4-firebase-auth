@@ -5,7 +5,7 @@
       <div class="blog">
         <h3>{{ blog.title }}</h3>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur aspernatur consectetur doloremque sunt ducimus enim iure animi fugit nulla et! Perferendis autem deleniti quo eum corrupti reiciendis voluptatem ab ducimus?</p>
-        <div class="icons">
+        <div class="icons" v-if="user">
           <span>upvote or downvote this article: </span>
           <span class="material-icons">thumb_up</span>
           <span class="material-icons">thumb_down</span>
@@ -16,10 +16,12 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
   setup() {
+    const store = useStore()
     const blogs = ref([
       { title: 'Why Coffee is Better than Tea', id: 1 },
       { title: '...Then I Took an Arrow in the Knee', id: 2 },
@@ -28,6 +30,7 @@ export default {
 
     return { 
       blogs,
+      user: computed(() => store.state.user)
     }
   }
 }
