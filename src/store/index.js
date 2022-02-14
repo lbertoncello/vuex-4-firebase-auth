@@ -38,8 +38,6 @@ const store = createStore({
       }
     },
     async logout(context) {
-      console.log('Logout action')
-  
       await signOut(auth)
       context.commit('setUser', null)
     }
